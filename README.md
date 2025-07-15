@@ -17,7 +17,9 @@ A modern web application that transforms natural language descriptions into prof
 ## 📸 Screenshots
 
 ### 🔷 Live Web UI
- <img width="1919" height="874" alt="Screenshot 2025-07-15 220132" src="https://github.com/user-attachments/assets/fc8221b3-4492-4c53-85a9-f473ed0e4a43" />
+<img width="1897" height="863" alt="Screenshot 2025-07-15 221300" src="https://github.com/user-attachments/assets/e89d8817-8f37-4a41-9e6f-7d5464920ba0" />
+
+ 
 
 
 ### 🔷 Generated Flowchart

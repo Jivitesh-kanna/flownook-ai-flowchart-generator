@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flownook ai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(209, 213, 219, 0.3);
+        }
+        .dark .glass-effect {
+            background-color: rgba(17, 24, 39, 0.75);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        .loading-dots {
+            display: inline-block;
+        }
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <!-- Navigation -->
+     <nav class="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img id="logoImg" src="flownook_logo.png" alt="Flownook Logo" class="h-10 mr-2">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-moon dark:hidden text-gray-600"></i>
+                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                    <button id="helpBtn" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-question-circle text-gray-600 dark:text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Transform Ideas into 
+                <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Visual Flowcharts
+                </span>
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Describe your process in plain English and watch as AI creates professional flowcharts instantly. 
+                Perfect for workflows, algorithms, and decision trees.
+            </p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <!-- Text Input -->
+            <div class="space-y-6 animate-slide-up">
+                <div class="glass-effect rounded-2xl p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                            <i class="fas fa-edit text-blue-500 mr-2"></i>
+                            Describe Your Process
+                        </h3>
+                        <button id="examplesBtn" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">
+                            <!-- <i class="fas fa-lightbulb mr-1"></i>
+                            Examples -->
+                        </button>
+                    </div>
+                    
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Describe your process, workflow, or algorithm in plain English. For example: 'User logs in, system validates credentials, if valid show dashboard, otherwise show error message...'"
+                        class="w-full h-40 p-4 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200"
+                    ></textarea>
+                    
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Be specific about decisions and steps</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="clearBtn" class="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors">
+                                <i class="fas fa-trash mr-1"></i>
+                                Clear
+                            </button>
+                            <button id="generateBtn" class="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                <i class="fas fa-magic mr-2"></i>
+                                <span id="generateBtnText">Generate Flowchart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Examples -->
+                <div id="quickExamples" class="hidden glass-effect rounded-xl p-4 shadow-lg">
+                    <h4 class="font-medium text-gray-900 dark:text-white mb-3">Quick Examples:</h4>
+                    <div class="space-y-2" id="examplesList">
+                        <!-- Examples will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="space-y-6 animate-slide-up" style="animation-delay: 0.2s;">
+                <div class="glass-effect rounded-2xl p-6 shadow-xl min-h-[400px]">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                            
+                            Generated Flowchart
+                        </h3>
+                        <div class="flex space-x-2">
+                            <button id="zoomInBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors disabled:opacity-50" disabled>
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button id="zoomOutBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors disabled:opacity-50" disabled>
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                                                        <button id="downloadBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors disabled:opacity-50" disabled>
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <div class="relative inline-block text-left">
+                                <button id="downloadQualityBtn" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-2 py-2 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 disabled:opacity-50" disabled>
+                                    <span id="selectedQualityText">2K</span>
+                                    <i class="fas fa-chevron-down -mr-1 ml-1 h-5 w-5"></i>
+                                </button>
+                                <div id="downloadQualityMenu" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 hidden z-10">
+                                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="downloadQualityBtn">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" role="menuitem" data-quality="1000">1K (Standard)</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" role="menuitem" data-quality="2000">2K (HD)</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" role="menuitem" data-quality="4000">4K (Super HD)</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <!-- Placeholder -->
+                    <div id="placeholder" class="flex flex-col items-center justify-center h-80 text-gray-400 dark:text-gray-500">
+                        <i class="fas fa-project-diagram text-6xl mb-4 opacity-50"></i>
+                        <p class="text-lg font-medium">Your flowchart will appear here</p>
+                        <p class="text-sm">Describe your process and click generate</p>
+                    </div>
+                    
+                    <!-- Loading -->
+                    <div id="loading" class="hidden flex flex-col items-center justify-center h-80 text-blue-500">
+                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mb-4"></div>
+                        <p class="text-lg font-medium">Generating flowchart<span class="loading-dots"></span></p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">AI is analyzing your process</p>
+                    </div>
+                    
+                    <!-- Flowchart Container -->
+                    <div id="flowchartContainer" class="hidden">
+                        <div id="mermaidChart" class="w-full overflow-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600" style="min-height: 300px;"></div>
+                    </div>
+                    
+                    <!-- Error -->
+                    <div id="error" class="hidden flex flex-col items-center justify-center h-80 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-6xl mb-4"></i>
+                        <p class="text-lg font-medium">Something went wrong</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400" id="errorMessage">Please try again</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-effect rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-brain text-blue-600 dark:text-blue-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">AI-Powered</h3>
+                <p class="text-gray-600 dark:text-gray-300">Advanced AI understands your descriptions and creates logical flowcharts automatically.</p>
+            </div>
+            
+            <div class="glass-effect rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-mobile-alt text-purple-600 dark:text-purple-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Responsive Design</h3>
+                <p class="text-gray-600 dark:text-gray-300">Works perfectly on desktop, tablet, and mobile devices with touch support.</p>
+            </div>
+            
+            <div class="glass-effect rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-download text-green-600 dark:text-green-400 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Export Ready</h3>
+                <p class="text-gray-600 dark:text-gray-300">Download your flowcharts as high-quality images for presentations and documents.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">How to Use</h3>
+                <button id="closeHelpBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-gray-600 dark:text-gray-300">
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">1. Describe Your Process</h4>
+                    <p>Write a clear description of your workflow, algorithm, or decision process in plain English. Be specific about steps and decision points.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">2. Generate Flowchart</h4>
+                    <p>Click the "Generate Flowchart" button and wait for the AI to analyze your description and create a visual flowchart.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">3. Interact & Export</h4>
+                    <p>Use zoom controls to explore your flowchart and download it as an image for use in presentations or documentation.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Tips for Better Results</h4>
+                    <ul class="list-disc list-inside space-y-1 ml-4">
+                        <li>Use clear, sequential language</li>
+                        <li>Mention decision points explicitly</li>
+                        <li>Include start and end conditions</li>
+                        <li>Be specific about actions and outcomes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+

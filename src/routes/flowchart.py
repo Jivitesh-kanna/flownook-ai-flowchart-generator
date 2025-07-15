@@ -7,7 +7,7 @@ flowchart_bp = Blueprint('flowchart', __name__)
 
 # Configure Gemini API (you'll need to set your API key)
 # For now, we'll use a placeholder - users will need to add their own API key
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyARhTqJRuTPWRbJ7U5M71BHFDyFbTUfirM')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'your API key here')
 genai.configure(api_key=GEMINI_API_KEY)
 
 def text_to_mermaid(user_input):
@@ -139,5 +139,5 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'AI Flowchart Generator',
-        'api_configured': GEMINI_API_KEY != 'AIzaSyARhTqJRuTPWRbJ7U5M71BHFDyFbTUfirM'
+        'api_configured': GEMINI_API_KEY != 'your API key here'
     })

@@ -14,6 +14,21 @@ A modern web application that transforms natural language descriptions into prof
 - 💡 **Smart Examples**: Built-in examples to get you started
 - ⚡ **Real-time Processing**: Fast API responses with loading states
 
+## 📸 Screenshots
+
+### 🔷 Live Web UI
+![Web UI] <img width="1919" height="874" alt="Screenshot 2025-07-15 220132" src="https://github.com/user-attachments/assets/fc8221b3-4492-4c53-85a9-f473ed0e4a43" />
+
+
+### 🔷 Generated Flowchart
+![Generated Flowchart]<img width="1896" height="869" alt="Screenshot 2025-07-15 220730" src="https://github.com/user-attachments/assets/01137dd9-5df3-45bd-a32b-46161fe4d38f" />
+
+
+### 🔷 Downloaded PNG Output
+![Downloaded Image] <img width="1897" height="865" alt="Screenshot 2025-07-15 220848" src="https://github.com/user-attachments/assets/ac06bdc8-635c-4aab-a7c8-e87a12933997" />
+
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
